@@ -127,9 +127,19 @@ python main.py --input /path/to/recording.mp3 \
 **Console Example**  
 
 ```
-Preprocessing audio... Transcribing audio with Whisper... Analyzing tone... Analyzing segments for text-based problems...
+Preprocessing audio... 
 
-Total segments: 10 Problematic segments: 2 First problematic segment example: { "start": 12.3, "end": 18.7, "text": "היי ילד טיפש, תסתום כבר!", "text_analysis": { "hebrew_analysis": { "text_hebrew": "היי ילד טיפש, תסתום כבר!", "found_keywords": ["טיפש", "תסתום"], "sentiment_label": "negative", "sentiment_score": 0.85, "toxicity_label": "toxic", "toxicity_score": 0.92 }, "english_analysis": { "text_english": "Hey stupid boy, shut up already!", "found_keywords": ["stupid", "shut up"], "sentiment_label": "NEGATIVE", "sentiment_score": 0.99, "toxicity_label": "toxic", "toxicity_score": 0.88 } }, "tone_analysis": { "average_amplitude": 0.12, "average_pitch_hz": 280.0, "tone_flags": { "loud": true, "high_pitch": true } }, "problematic": true }
+Transcribing audio with Whisper... 
+
+Analyzing tone... 
+
+Analyzing segments for text-based problems...
+
+Total segments: 10 
+
+Problematic segments: 2 
+
+First problematic segment example: { "start": 12.3, "end": 18.7, "text": "היי ילד טיפש, תסתום כבר!", "text_analysis": { "hebrew_analysis": { "text_hebrew": "היי ילד טיפש, תסתום כבר!", "found_keywords": ["טיפש", "תסתום"], "sentiment_label": "negative", "sentiment_score": 0.85, "toxicity_label": "toxic", "toxicity_score": 0.92 }, "english_analysis": { "text_english": "Hey stupid boy, shut up already!", "found_keywords": ["stupid", "shut up"], "sentiment_label": "NEGATIVE", "sentiment_score": 0.99, "toxicity_label": "toxic", "toxicity_score": 0.88 } }, "tone_analysis": { "average_amplitude": 0.12, "average_pitch_hz": 280.0, "tone_flags": { "loud": true, "high_pitch": true } }, "problematic": true }
 
 Saving results to /path/to/results.json... Done.
 ```
