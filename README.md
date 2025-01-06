@@ -74,13 +74,13 @@ A Python-based pipeline to:
 ## Usage
 
 Run the main script from the CLI:
-
+```
 python main.py --input /path/to/recording.mp3 \
                --output /path/to/output.json \
                --language_code he \
                --model_size medium \
                --use_translation
-
+```
 ---
 
 ### Arguments
@@ -95,5 +95,68 @@ python main.py --input /path/to/recording.mp3 \
 
 ---
 
-## Project Structure
 
+- **`main.py`**: Orchestrates the entire pipeline (preprocess, transcribe, analyze text & tone).  
+- **`preprocess_audio.py`**: Noise reduction, mono conversion, and WAV export.  
+- **`transcribe.py`**: Speech-to-text using Whisper.  
+- **`hebrew_analysis.py`**: Hebrew keyword, sentiment, and toxicity checks.  
+- **`english_analysis.py`**: English keyword, sentiment, and toxicity checks.  
+- **`analyze_tone.py`**: Audio tone analysis (loudness, pitch).
+
+---
+
+## Example Workflow
+
+1. **Record Audio**  
+   - Place the audio file in a known location (e.g., `recording.wav`).
+
+2. **Preprocess & Transcribe**  
+   - Run `main.py`, which will preprocess the audio, then transcribe with Whisper.
+
+3. **Text & Tone Analysis**  
+   - If the audio is Hebrew, it’s analyzed with a Hebrew NLP model (optionally translated to English).  
+   - Checks for keywords, abusive language, negative sentiment, or loud/high-pitched speech.
+
+4. **Results & JSON Output**  
+   - A JSON file is generated containing all segments, any flagged issues, and a summary printed to the console.
+
+---
+
+## Example Output
+
+**Console Example**  
+
+```
+Preprocessing audio... Transcribing audio with Whisper... Analyzing tone... Analyzing segments for text-based problems...
+
+Total segments: 10 Problematic segments: 2 First problematic segment example: { "start": 12.3, "end": 18.7, "text": "היי ילד טיפש, תסתום כבר!", "text_analysis": { "hebrew_analysis": { "text_hebrew": "היי ילד טיפש, תסתום כבר!", "found_keywords": ["טיפש", "תסתום"], "sentiment_label": "negative", "sentiment_score": 0.85, "toxicity_label": "toxic", "toxicity_score": 0.92 }, "english_analysis": { "text_english": "Hey stupid boy, shut up already!", "found_keywords": ["stupid", "shut up"], "sentiment_label": "NEGATIVE", "sentiment_score": 0.99, "toxicity_label": "toxic", "toxicity_score": 0.88 } }, "tone_analysis": { "average_amplitude": 0.12, "average_pitch_hz": 280.0, "tone_flags": { "loud": true, "high_pitch": true } }, "problematic": true }
+
+Saving results to /path/to/results.json... Done.
+```
+
+---
+
+## Contributing
+
+1. **Fork** the repo on GitHub.  
+2. **Create** a new branch (`feat/new-feature`).  
+3. **Commit** your changes and **push** to GitHub.  
+4. **Open a Pull Request** to discuss and merge.
+
+---
+
+## License
+
+This project is available under the [MIT License](https://opensource.org/licenses/MIT).  
+Please consult your local laws regarding **recording** and **analyzing** audio of third parties.
+
+---
+
+## Contact
+
+For questions, issues, or feature requests, please open an [issue on GitHub](https://github.com/your-username/my-daycare-monitor/issues) or reach out to:
+- **Name**: Your Name  
+- **Email**: your.email@example.com  
+
+**Happy Monitoring!**  
+Remember to use responsibly and ethically.
