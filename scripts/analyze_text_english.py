@@ -2,12 +2,7 @@ import re
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 
 # Example list of English keywords/phrases to flag
-ENGLISH_KEYWORDS = [
-    "stupid",
-    "shut up",
-    "stop crying",
-    # Add more as needed
-]
+from consts import ENGLISH_KEYWORDS
 
 # 1) Load an English sentiment pipeline
 english_sentiment_pipeline = pipeline("sentiment-analysis")

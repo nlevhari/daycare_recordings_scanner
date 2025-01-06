@@ -2,11 +2,8 @@ import re
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
 # Example Hebrew keywords:
-HEBREW_KEYWORDS = [
-    "טיפש",    # "stupid"
-    "סתום",    # "shut up"
-    "אל תבכה"  # "don't cry"
-]
+from consts import HEBREW_KEYWORDS
+
 
 # 1) Load Hebrew sentiment model (example: heBERT)
 HEBREW_MODEL_NAME = "avichr/heBERT_sentiment"
