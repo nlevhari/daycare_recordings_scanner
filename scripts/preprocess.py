@@ -1,3 +1,4 @@
+import os
 from pydub import AudioSegment
 import noisereduce as nr
 import numpy as np
@@ -35,3 +36,13 @@ def preprocess_audio(input_file: str, output_file: str = "processed.wav") -> str
     processed_audio.export(output_file, format="wav")
 
     return output_file
+
+def maybe_preprocess_audio(input_file: str, preprocessed_file="processed.wav"):
+    # if the preprocessed file already exists, skip
+    if os.path.exists(preprocessed_file):
+        print(f"Skipping preprocessing; '{preprocessed_file}' already exists.")
+        return preprocessed_file
+    
+    # otherwise, call your `preprocess_audio` function
+    return preprocess_audio(input_file, preprocessed_file)
+

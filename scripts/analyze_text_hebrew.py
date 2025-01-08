@@ -2,30 +2,25 @@ import re
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
 # Example Hebrew keywords:
-from consts import HEBREW_KEYWORDS
+from common.consts import HEBREW_KEYWORDS
 
 
 # 1) Load Hebrew sentiment model (example: heBERT)
-HEBREW_MODEL_NAME = "avichr/heBERT_sentiment"
-hebrew_tokenizer = AutoTokenizer.from_pretrained(HEBREW_MODEL_NAME)
-hebrew_model = AutoModelForSequenceClassification.from_pretrained(HEBREW_MODEL_NAME)
+HEBREW_MODEL_NAME = "avichr/heBERT_sentiment_analysis"
+from transformers import pipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+tokenizer = AutoTokenizer.from_pretrained("DGurgurov/xlm-r_hebrew_sentiment")
+model = AutoModelForSequenceClassification.from_pretrained("DGurgurov/xlm-r_hebrew_sentiment")
+
+# how to use?
 hebrew_sentiment_pipeline = pipeline(
     "sentiment-analysis",
-    model=hebrew_model,
-    tokenizer=hebrew_tokenizer,
-    return_all_scores=True
+    model="DGurgurov/xlm-r_hebrew_sentiment",
+    tokenizer="DGurgurov/xlm-r_hebrew_sentiment",
+    return_all_scores = True
 )
 
-# 2) Load Hebrew toxic classification model (example: alexmickey/HebToxicClassifier)
-HEBREW_TOXIC_MODEL_NAME = "alexmickey/HebToxicClassifier"
-hebrew_toxic_tokenizer = AutoTokenizer.from_pretrained(HEBREW_TOXIC_MODEL_NAME)
-hebrew_toxic_model = AutoModelForSequenceClassification.from_pretrained(HEBREW_TOXIC_MODEL_NAME)
-hebrew_toxic_pipeline = pipeline(
-    "text-classification",
-    model=hebrew_toxic_model,
-    tokenizer=hebrew_toxic_tokenizer,
-    return_all_scores=True
-)
 
 def analyze_hebrew_text(text: str) -> dict:
     """
@@ -57,7 +52,6 @@ def analyze_hebrew_text(text: str) -> dict:
         sentiment_score = 0.0
 
     # --- 3) Toxic/Abusive Classification ---
-    toxicity_results = hebrew_toxic_pipeline(text)
     # Each pipeline run might return something like:
     # [
     #   [
@@ -65,21 +59,12 @@ def analyze_hebrew_text(text: str) -> dict:
     #     {"label": "non-toxic", "score": 0.1}
     #   ]
     # ]
-    if toxicity_results and isinstance(toxicity_results, list) and len(toxicity_results[0]) > 0:
-        toxicity_sorted = sorted(toxicity_results[0], key=lambda x: x["score"], reverse=True)
-        toxic_label = toxicity_sorted[0]["label"]
-        toxic_score = toxicity_sorted[0]["score"]
-    else:
-        toxic_label = "unknown"
-        toxic_score = 0.0
 
     return {
         "text_hebrew": text,
         "found_keywords": found_keywords,
         "sentiment_label": sentiment_label,
         "sentiment_score": sentiment_score,
-        "toxicity_label": toxic_label,
-        "toxicity_score": toxic_score,
     }
 
 if __name__ == "__main__":
